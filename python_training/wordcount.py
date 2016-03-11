@@ -41,7 +41,7 @@ def get_word_count(filename):
         f.seek(0)
         for word in f.read().split():
             all_words.append(word.lower())
-    return list(set([(word, all_words.count(word)) for word in all_words]))
+    return [(word, all_words.count(word)) for k, word in enumerate(all_words) if k == all_words.index(word)]
 
 def print_words(filename):
     word_count = get_word_count(filename)
