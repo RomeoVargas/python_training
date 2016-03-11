@@ -36,26 +36,25 @@ import sys
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
 def get_word_count(filename):
-    word_count = []
+    all_words = []
     with open (filename, "r") as f:
         f.seek(0)
-        words = list(set([word for word in f.read().split()]))
-        for word in words:
-            word_count.append({'word' : word, 'count' : words.count(word)})
-    return word_count
+        for word in f.read().split():
+            all_words.append(word.lower())
+    return list(set([(word, all_words.count(word)) for word in all_words]))
 
 def print_words(filename):
     word_count = get_word_count(filename)
-    for item in sorted(word_count, key = lambda x:x['word']):
-        print(item['word'], item['count'])
+    for item in sorted(word_count, key = lambda x:x[0]):
+        print(item[0], item[1])
 
 
 def print_top(filename):
     word_count = get_word_count(filename)
     num_printed = 0
-    for item in sorted(word_count, key = lambda x:x['count'], reverse = True):
+    for item in sorted(word_count, key = lambda x:x[1], reverse = True):
         if num_printed < 20:
-            print(item['word'], item['count'])
+            print(item[0], item[1])
             num_printed += 1
 
 # This basic command line argument parsing code is provided and
